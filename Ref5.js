@@ -24,11 +24,15 @@ tree_sum(my_tree);
 function accumulate_tree(f, op, initial, tree) {
     return accumulate((x, y) =>
         is_list(x)
-        ? op(accumulate_tree(f, op, initial, x), f(y))
+        ? op(accumulate_tree(f, op, initial, x), y)
         : op(f(x), y)
     , initial, tree);
 }
 function _tree_sum(tree) {
     return accumulate_tree(x => x, (x, y) => x + y, 0 , tree);
 }
+function _count_data_items(tree) {
+    return accumulate_tree(x => 1, (x, y) => x + y, 0 , tree);
+}
 _tree_sum(my_tree);
+_count_data_items(my_tree);
