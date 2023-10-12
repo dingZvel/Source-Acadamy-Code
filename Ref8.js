@@ -1,23 +1,21 @@
 /*// Q1
-let tt = 3;
 function make_withdraw(balance, psd) {
+    let tt = 3;
     function withdraw(amount, ps) {
         if (tt <= 0) {
             return "Account disabled";
         }
-        else {
-            if (ps === psd) {
-                tt = 3;
-                if (balance >= amount) {
-                    balance = balance - amount;
-                    return balance;
-                } else {
-                    return "Insufficient funds";
-                }
+        if (ps === psd) {
+            tt = 3;
+            if (balance >= amount) {
+                balance = balance - amount;
+                return balance;
             } else {
-                tt = tt - 1;
-                return "Wrong password; no withdraw";
+                return "Insufficient funds";
             }
+        } else {
+            tt = tt - 1;
+            return "Wrong password; no withdraw";
         }
     }
     return withdraw;
@@ -51,4 +49,4 @@ calc(75);
 function curry(f) {
     return x => y => f(x, y);
 }
-(curry(math_pow))(3)(4);
+curry(math_pow)(3)(4);
