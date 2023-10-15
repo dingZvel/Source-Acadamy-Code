@@ -36,46 +36,52 @@ ev3_motorStop(motorB);
 const motorA = ev3_motorA();
 const motorB = ev3_motorB();
 const ultraS = ev3_ultrasonicSensor();
-let distance_away = ev3_ultrasonicSensoorDistance(ultraS) / 10;
 
-const randomize = math_random() < 0.5;
-
-function left_wheel_move(time) {
+function left() {
+    const time = 2100;
     ev3_runForTime(motorA, time, 260);
-    ev3_pause(time);
+    ev3_pause(time + 100);
 }
 
-function right_wheel_move(time) {
+function right() {
+    const time = 2100;
     ev3_runForTime(motorB, time, 260);
+    ev3_pause(time + 100);
+}
+function stop() {
+    ev3_motorStop(motorA);
+    ev3_motorStop(motorB);
+    ev3_pause(300);
+}
+
+function forward(time, speed) {
+    ev3_runForTime(motorA, time, speed);
+    ev3_runForTime(motorB, time, speed);
     ev3_pause(time);
 }
 
-function rotate_cw(time) {
-    left_wheel_move(time);
-    ev3_pause(time);
+function aroundBox() {
+    let distance = ev3_ultrasonicSensorDistance(ultraS) / 10;
+    const direction = math_random() < 0.5;
+    
+    ev3_runForTime(motorA, 10000, 500);
+    ev3_runForTime(motorB, 10000, 500);
+    
+    while(distance >= 32) {
+        distance = ev3_ultrasonicSensorDistance(ultraS) / 10;
+    }
+    
+    stop();
+    
+    direction ? left() : right();
+    
+    forward(2200, 500);
+    
+    stop();
+    
+    direction ? right() : left();
+    
+    forward(2500, 500);
 }
-function rotate_acw(time) {
-    right_wheel_move(time);
-    ev3_pause(time);
-}
 
-
-ev3_runForTime(motorA, 10000, 500);
-ev3_runForTime(motorB, 10000, 500);
-while (distance_away >= 30) {
-    distance_away = ev3_ultrasonicSensorDistance(ultraS) / 10;
-}
-ev3_motorStop(motorA);
-ev3_motorStop(motorB);
-
-randomize ? rotate_acw(1800) : rotate_cw(1800);
-
-
-ev3_runForTime(motorA, 10000, 750);
-ev3_runForTime(motorB, 10000, 750);
-ev3_pause(10000);
-
-randomize ? rotate_cw(1800) : rotate_acw(1800);
-
-ev3_runForTime(motorA, 5000, 500);
-ev3_runForTime(motorB, 5000, 500); 
+aroundBox();
