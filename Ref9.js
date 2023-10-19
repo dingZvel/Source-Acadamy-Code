@@ -95,5 +95,5 @@ function _fib(n){
 _fib(10);
 
 //Q3
-theta(n + k);
-theta(n * k);
+theta(k(n - k));
+theta(k(n - k));
