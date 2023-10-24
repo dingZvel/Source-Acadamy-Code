@@ -1,20 +1,17 @@
 //Q2
 function bubblesort_list(L) {
-    function get_head(L, n) {
-        return n <= 0
-               ? L
-               : get_head(tail(L), n - 1);
-    }
+    let li = L;
     for(let i = length(L) - 1; i >= 1; i = i - 1) {
-        const li = list_ref(L, i);
         for(let j = 0; j < i ; j = j + 1) {
-            const lj = list_ref(L, j);
-            const lj1 = list_ref(L, j + 1);
-            if (lj > lj1) {
-                set_head(get_head(L, j), lj1);
-                set_head(get_head(L, j + 1), lj);
+            const xi = head(li);
+            const xj = head(tail(li));
+            if(xi > xj) {
+                set_head(li, xj);
+                set_head(tail(li), xi);
             }
+            li = tail(li);
         }
+        li = L;
     }
 }
 
@@ -78,3 +75,5 @@ function mcc(n, k) {
 }
 
 mcc(365, 5);  // Expected result: 1730
+
+//Order of growth O(n*k) both time and space;
